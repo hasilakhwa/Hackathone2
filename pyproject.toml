@@ -1,0 +1,24 @@
+[project]
+name = "todo-app"
+version = "0.1.0"
+description = "Phase I — In-Memory Python Console Todo App"
+authors = [
+    {name = "User", email = "user@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+license = {text = "MIT"}
+
+[project.scripts]
+todo-app = "src.todo_app.main:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-v"]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
