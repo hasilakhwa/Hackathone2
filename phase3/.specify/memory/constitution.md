@@ -1,55 +1,49 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT:
+Version change: N/A -> 1.0.0
+Modified principles: None (new constitution)
+Added sections: All sections
+Removed sections: None
+Templates requiring updates:
+- .specify/templates/plan-template.md ✅ updated
+- .specify/templates/spec-template.md ✅ updated
+- .specify/templates/tasks-template.md ✅ updated
+- .specify/templates/commands/*.md ⚠ pending
+Follow-up TODOs: None
+-->
+# AI-Powered Todo Chatbot Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Technology Stack Adherence
+Strict adherence to provided technology stack: OpenAI ChatKit (Frontend), Python FastAPI (Backend), OpenAI Agents SDK (AI Framework), Official MCP SDK (MCP Server), SQLModel ORM, Neon Serverless PostgreSQL, Better Auth with JWT. All implementations MUST use only these specified technologies without deviation.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Security-First Design
+Enforce user isolation, stateless JWT auth, no cross-user data access, always verify ownership. Every API endpoint and database query MUST validate user permissions and prevent unauthorized access to resources.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Agentic Workflow Purity
+No manual coding — all implementation via agents/skills using spec → plan → tasks → implement process with Claude Code and Spec-Kit Plus. All development work MUST follow the automated agent workflow without manual intervention.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Modularity & Reusability
+Use sub-agents (Database, Backend, Authentication, Frontend, Integration) and granular skills for every major component. Code components MUST be modular and reusable across the application architecture.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Production-Ready Code Quality
+Type-safe (Pydantic/SQLModel, TypeScript), consistent naming, error handling, proper HTTP status codes. All code MUST be production-ready with appropriate type safety, error handling, and consistent conventions.
 
-### [PRINCIPLE_6_NAME]
+### Stateless Authentication
+Pure stateless JWT verification on all requests, no shared sessions/DB calls for auth. Authentication system MUST rely solely on JWT tokens without server-side session storage.
 
+## Security Requirements
 
-[PRINCIPLE__DESCRIPTION]
+Authentication: JWT tokens only (Better Auth plugin), shared secret via env (BETTER_AUTH_SECRET), Bearer header on all API calls, 401 Unauthorized on invalid/missing token. API behavior: All endpoints prefixed /api/{user_id}/chat, filter/mutate only by authenticated user_id from decoded JWT, 403 Forbidden on user_id mismatch.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Development Standards
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+All endpoints MUST follow the pattern /api/{user_id}/chat with proper user_id validation from JWT. Database: SQLModel models with user_id foreign key, ownership enforced in every query, timestamps (created_at/updated_at), no raw SQL unless necessary. Frontend: Responsive UI (mobile-first), protected routes, automatic JWT attachment in API client, handle 401 → redirect to login.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Code quality: Use Pydantic/SQLModel for models, React Hook Form or native validation in forms, no console.logs in production code, consistent folder structure. Environment: All secrets/config via .env (never hardcoded), NEXT_PUBLIC_API_URL for frontend, load_dotenv in backend.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Constitution serves as the authoritative guide for all development decisions. All implementation work MUST comply with these principles. Any deviations require explicit constitutional amendment process.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-08
