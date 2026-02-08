@@ -1,95 +1,49 @@
-<!--
-Sync Impact Report:
-Version change: N/A → 1.0.0
-List of modified principles: N/A → Agentic-First Development, No Manual Coding, Separation of Concerns, Security-by-Design, Production-Grade Structure
-Added sections: Core Principles (6), Additional Constraints, Development Workflow, Governance
+<!-- SYNC IMPACT REPORT:
+Version change: N/A -> 1.0.0
+Modified principles: None (new constitution)
+Added sections: All sections
 Removed sections: None
-Templates requiring updates: ✅ Updated all relevant sections
+Templates requiring updates:
+- .specify/templates/plan-template.md ✅ updated
+- .specify/templates/spec-template.md ✅ updated
+- .specify/templates/tasks-template.md ✅ updated
+- .specify/templates/commands/*.md ⚠ pending
 Follow-up TODOs: None
 -->
-# Todo Full-Stack Web Application Constitution
+# Multi-user Todo Full-Stack Web Application Constitution
 
 ## Core Principles
 
-### I. Agentic-First Development
-Agentic-first development (spec → plan → tasks → implementation) with Claude Code as the primary implementation mechanism. All code must be generated through the agentic workflow without manual intervention. This ensures reproducible, auditable, and consistent development outcomes.
+### Technology Stack Adherence
+Strict adherence to provided technology stack: Next.js 16+ (App Router), FastAPI (Python), SQLModel ORM, Neon Serverless PostgreSQL, Better Auth with JWT. All implementations MUST use only these specified technologies without deviation.
 
-### II. No Manual Coding
-No manual coding is allowed - all code must be generated via Claude Code following the Agentic Dev Stack methodology. This enforces strict adherence to the spec-driven approach and eliminates ad-hoc implementations that deviate from the planned architecture.
+### Security-First Design
+Enforce user isolation, stateless JWT auth, no cross-user data access, always verify ownership. Every API endpoint and database query MUST validate user permissions and prevent unauthorized access to resources.
 
-### III. Clear Separation of Concerns
-Clear separation of concerns across specifications (Backend, Auth, Frontend) with well-defined interfaces and minimal coupling. Each layer must operate independently while maintaining consistent data contracts and API boundaries to enable parallel development and testing.
+### Agentic Workflow Purity
+No manual coding — all implementation via agents/skills using spec → plan → tasks → implement process. All development work MUST follow the automated agent workflow without manual intervention.
 
-### IV. Security-by-Design
-Security-by-design principles with authentication enforced at every layer of the application stack. Security measures must be implemented from the ground up rather than added as an afterthought, ensuring that all data access, user validation, and system interactions follow security best practices.
+### Modularity & Reusability
+Use sub-agents (Database, Backend, Authentication, Frontend, Integration) and granular skills for every major component. Code components MUST be modular and reusable across the application architecture.
 
-### V. Production-Grade Structure
-Production-grade structure must be maintained despite hackathon scope, with proper error handling, logging, monitoring capabilities, and operational readiness built into the application from the start. This ensures the codebase can evolve beyond the hackathon phase.
+### Production-Ready Code Quality
+Type-safe (Pydantic/SQLModel, TypeScript), consistent naming, error handling, proper HTTP status codes. All code MUST be production-ready with appropriate type safety, error handling, and consistent conventions.
 
-### VI. Traceability and Accountability
-Every feature must be traceable to an explicit requirement and every API endpoint must map to a documented behavior. This ensures that all functionality serves a defined purpose and can be validated against specific acceptance criteria.
+### Stateless Authentication
+Pure stateless JWT verification on all requests, no shared sessions/DB calls for auth. Authentication system MUST rely solely on JWT tokens without server-side session storage.
 
-## Additional Constraints
+## Security Requirements
 
-### Technology Stack Requirements
-- Frontend: Next.js 16+ using App Router for modern React development
-- Backend: Python FastAPI for high-performance API development
-- ORM: SQLModel for unified data modeling across SQLAlchemy and Pydantic
-- Database: Neon Serverless PostgreSQL for scalable, managed database service
-- Authentication: Better Auth (JWT-based) for secure, standardized authentication
-- Auth secret shared via BETTER_AUTH_SECRET environment variable for secure credential management
+Authentication: JWT tokens only (Better Auth plugin), shared secret via env (BETTER_AUTH_SECRET), Bearer header on all API calls, 401 Unauthorized on invalid/missing token. API behavior: All endpoints prefixed /api/{user_id}/tasks, filter/mutate only by authenticated user_id from decoded JWT, 403 Forbidden on user_id mismatch.
 
-### Security Standards
-- All API endpoints require a valid JWT token after authentication to prevent unauthorized access
-- Requests without a token must return 401 Unauthorized status code to enforce security boundaries
-- Backend must validate JWT signature and expiration to prevent token replay and expired access
-- User ID must be derived from JWT, not trusted from client input to prevent ID spoofing
-- Task ownership must be enforced on every CRUD operation to maintain data isolation
-- No cross-user data access under any circumstances to protect user privacy and data integrity
+## Development Standards
 
-### API Standards
-- RESTful conventions must be followed to ensure predictable and standardized API behavior
-- HTTP methods must match intent (GET, POST, PUT, PATCH, DELETE) for semantic clarity
-- Consistent JSON response shapes for reliable client-server communication
-- Proper HTTP status codes for success and failure cases to enable proper error handling
-- Clear error messages without leaking sensitive data to prevent information disclosure
+All endpoints MUST follow the pattern /api/{user_id}/tasks with proper user_id validation from JWT. Database: SQLModel models with user_id foreign key, ownership enforced in every query, timestamps (created_at/updated_at), no raw SQL unless necessary. Frontend: Responsive UI (mobile-first), protected routes, automatic JWT attachment in API client, handle 401 → redirect to login.
 
-### Frontend Standards
-- Responsive UI across desktop and mobile to ensure accessibility across devices
-- Auth-aware routing (protected vs public pages) to enforce security boundaries
-- API client must automatically attach JWT token to ensure seamless authentication
-- Loading, error, and empty states must be handled explicitly to provide good user experience
-- UI must reflect backend truth (no fake optimistic state) to maintain data consistency
-
-## Development Workflow
-
-### Agentic Workflow Rules
-- Each spec must have its own sp.specify prompt to ensure comprehensive requirement coverage
-- Each sp.specify must result in a concrete execution plan to guide implementation
-- Plans must be broken into deterministic, testable tasks to enable incremental delivery
-- No implementation before plan approval to ensure architectural alignment
-- Iteration is allowed, silent deviation is not to maintain project integrity
-
-### Documentation & Evaluation Readiness
-- Specs must be readable by judges without extra context to ensure clear communication
-- Plans must clearly show reasoning and ordering to demonstrate thoughtful design
-- Decisions must be explicit, not implied to enable proper review and validation
-- Tradeoffs must be stated when relevant to document design considerations
-
-### Success Criteria
-- All 5 Basic Level features implemented as a working web app to satisfy functional requirements
-- Multi-user task isolation verified end-to-end to ensure proper data separation
-- JWT authentication works across frontend and backend to provide secure access control
-- Backend persists data correctly in Neon PostgreSQL to ensure data reliability
-- Frontend fully functional using generated code only to validate agentic approach
-- Entire workflow demonstrates proper Agentic Dev Stack usage to achieve methodological goals
+Code quality: Use Pydantic/SQLModel for models, React Hook Form or native validation in forms, no console.logs in production code, consistent folder structure. Environment: All secrets/config via .env (never hardcoded), NEXT_PUBLIC_API_URL for frontend, load_dotenv in backend.
 
 ## Governance
 
-This constitution supersedes all other development practices and guidelines for the Todo Full-Stack Web Application project. All team members must comply with these principles during the hackathon phase.
+Constitution serves as the authoritative guide for all development decisions. All implementation work MUST comply with these principles. Any deviations require explicit constitutional amendment process.
 
-Amendments to this constitution require explicit documentation of the change, approval from the project lead, and a migration plan for any affected components. All pull requests and code reviews must verify compliance with these constitutional principles before merging.
-
-The development team must conduct periodic compliance reviews to ensure ongoing adherence to these principles, with special attention to security standards and agentic workflow requirements.
-
-**Version**: 1.0.0 | **Ratified**: 2026-01-20 | **Last Amended**: 2026-01-20
+**Version**: 1.0.0 | **Ratified**: 2026-02-04 | **Last Amended**: 2026-02-04

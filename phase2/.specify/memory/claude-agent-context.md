@@ -1,28 +1,31 @@
-# Claude Code Agent Context: Backend API & Data Layer
+# Claude Agent Context for Next.js Frontend Development
 
-## Project Context
-- Project: Todo Full-Stack Web Application
-- Feature: Backend API & Data Layer (001-backend-api-data)
-- Architecture: FastAPI backend with JWT authentication
-- Database: Neon Serverless PostgreSQL with SQLModel ORM
+## Technologies Used
+- Next.js 16+ with App Router
+- TypeScript
+- Tailwind CSS
+- Better Auth with JWT plugin
+- @better-auth/client
+- Framer Motion
+- Sonner (for toasts)
+- Optional: shadcn/ui components
+- FastAPI backend
+- NeonDB database
+- CORS middleware
 
-## Technology Stack
-- Language: Python 3.11
-- Framework: FastAPI
-- ORM: SQLModel
-- Database: PostgreSQL (via Neon)
-- Authentication: JWT token verification
+## Architecture Patterns
+- Next.js App Router directory structure
+- Client-side session management with Better Auth
+- Centralized API client with authentication token injection
+- Component-based UI architecture
+- Responsive design with mobile-first approach
 
-## Key Directories
-- backend/src/: Main source code
-- backend/src/models/: Data models using SQLModel
-- backend/src/api/: API route definitions
-- backend/src/services/: Business logic
-- backend/src/core/: Configuration and security utilities
-
-## Critical Requirements
-- All API endpoints must validate JWT tokens
-- User data isolation must be enforced at database level
-- FastAPI dependencies should handle authentication
-- SQLModel models must include proper relationships
-- Error responses must follow HTTP standards
+## Key Implementation Details
+- Authentication routes in app/api/auth/[...all]/route.ts
+- Server-side auth configuration in lib/auth.ts
+- Client utilities for session management
+- Protected routes using Next.js middleware
+- API client wrapper in lib/api.ts with JWT token handling
+- CORS configuration for cross-origin requests between frontend and backend
+- User isolation mechanisms for task data
+- Error handling with toast notifications and redirects
